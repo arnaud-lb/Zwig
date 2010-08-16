@@ -11,10 +11,9 @@ class Zwig_ExpressionParser extends Twig_ExpressionParser
         if ($token->getType() == Twig_Token::NAME_TYPE
                 && $value !== 'true' && $value !== 'false' && $value !== 'none') {
 
-            $this->parser->getStream()->next();
-            $test = $this->parser->getStream()->getCurrent();
-
-            if ($test->test(Twig_Token::OPERATOR_TYPE, '(')) {
+            $this->parser->getStream()->rewind();
+            if ($this->parser->getStream()->look()->test(Twig_Token::OPERATOR_TYPE, '(')) {
+                $this->parser->getStream()->next();
                 $args = $this->parseArguments();
                 $node = new Zwig_Node_Expression_ViewHelper($token->getValue(), $args, $token->getLine());
                 if (!$assignment) {
@@ -22,15 +21,7 @@ class Zwig_ExpressionParser extends Twig_ExpressionParser
                 }
                 return $node;
             }
-
-            // reset stream->current
-            $this->parser->getStream()->push($token);
-            $this->parser->getStream()->push($token);
-            $this->parser->getStream()->next();
-
-            // rewind
-            $this->parser->getStream()->push($token);
-            $this->parser->getStream()->push($test);
+            $this->parser->getStream()->rewind();
         }
         return parent::parsePrimaryExpression($assignment);
     }
