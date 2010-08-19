@@ -8,7 +8,7 @@ class Zwig_Node_Expression_Name extends Twig_Node_Expression_Name
             $compiler->raw('$this');
         } elseif ('_context' === $this['name']) {
             $compiler->raw('$context');
-    	} else {
+        } else {
             $compiler->raw(sprintf('$context[\'%s\']', $this['name']));
         }
     }

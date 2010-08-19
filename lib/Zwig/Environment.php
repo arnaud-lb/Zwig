@@ -7,11 +7,11 @@ class Zwig_Environment extends Twig_Environment
     public function __construct(Zwig_View $view, Twig_LoaderInterface $loader = null, $options = array(), Twig_LexerInterface $lexer = null, Twig_ParserInterface $parser = null, Twig_CompilerInterface $compiler = null) {
 
         $parser = $parser !== null ? $parser : new Zwig_Parser;
-	$strictify = false;
-	if (isset($options['strictify'])) {
-		$strictify = $options['strictify'];
-		unset($options['strictify']);
-	}
+        $strictify = false;
+        if (isset($options['strictify'])) {
+            $strictify = $options['strictify'];
+            unset($options['strictify']);
+        }
 
         parent::__construct($loader, $options, $lexer, $parser, $compiler);
 
