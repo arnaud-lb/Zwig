@@ -2,6 +2,13 @@
 
 class Zwig_Extension extends Twig_Extension
 {
+    protected $strictify = false;
+
+    public function __construct($strictify = false)
+    {
+        $this->strictify = $strictify;
+    }
+
     public function getTokenParsers()
     {
         return array(new Zwig_TokenParser_ViewHelper());
@@ -17,7 +24,11 @@ class Zwig_Extension extends Twig_Extension
 
     public function getNodeVisitors()
     {
-        return array(new Zwig_NodeVisitor_Escaper());
+        $visitors = array(new Zwig_NodeVisitor_Escaper);
+        if ($this->strictify) {
+            $visitors[] = new Zwig_NodeVisitor_Strictify;
+        }
+        return $visitors;
     }
 
     public function getName()
