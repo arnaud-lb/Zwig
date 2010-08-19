@@ -2,22 +2,19 @@
 
 class Zwig_Node_Expression_ViewHelper extends Twig_Node_Expression
 {
-    protected $_helper;
-
     public function __construct($helper, $args, $lineno, $tag = null)
     {
-        parent::__construct(array('args' => $args), array(), $lineno, $tag);
-        $this->_helper = $helper;
+        parent::__construct(array('args' => $args), array('helper' => $helper), $lineno, $tag);
     }
 
     public function getHelper()
     {
-        return $this->_helper;
+        return $this['helper'];
     }
 
     public function compile($compiler)
     {
-        $compiler->raw('$this->env->view->' . $this->_helper . '(');
+        $compiler->raw('$this->env->view->' . $this['helper'] . '(');
 
         $first = true;
         foreach($this->args as $arg) {
