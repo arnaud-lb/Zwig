@@ -2,11 +2,13 @@
 
 class Zwig_Extension extends Twig_Extension
 {
-    protected $strictify = false;
+    protected $strictify;
+    protected $overrideEscape;
 
-    public function __construct($strictify = false)
+    public function __construct($strictify = false, $override_escape = true)
     {
         $this->strictify = $strictify;
+        $this->overrideEscape = $override_escape;
     }
 
     public function getTokenParsers()
@@ -16,10 +18,15 @@ class Zwig_Extension extends Twig_Extension
 
     public function getFilters()
     {
-        return array(
+        $filters = array(
             'js' => new Twig_Filter_Function('json_encode'),
             'string' => new Zwig_Filter_Cast('string'),
         );
+        if ($this->overrideEscape) {
+            $filters['escape'] = new Twig_Filter_Function('zwig_escape_filter', array('needs_environment' => true, 'is_escaper' => true));
+            $filters['e'] = $filters['escape'];
+        }
+        return $filters;
     }
 
     public function getNodeVisitors()
@@ -36,3 +43,22 @@ class Zwig_Extension extends Twig_Extension
         return 'Zwig';
     }
 }
+
+/*
+ * This is twig_escape_filter without the is_string() check
+ * so that zwig_escape_filter really escapes everything.
+ */
+function zwig_escape_filter(Twig_Environment $env, $string, $type = 'html')
+{
+    switch ($type) {
+        case 'js':
+            // a function the c-escapes a string, making it suitable to be placed in a JavaScript string
+            return str_replace(array("\\"  , "\n"  , "\r" , "\""  , "'"),
+                                                 array("\\\\", "\\n" , "\\r", "\\\"", "\\'"),
+                                                 $string);
+        case 'html':
+        default:
+            return htmlspecialchars($string, ENT_QUOTES, $env->getCharset());
+    }
+}
+
