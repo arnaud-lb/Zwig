@@ -90,13 +90,15 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
         if (!$expression instanceof Zwig_Node_Expression_ViewHelper) {
             return $node;
         }
-        if ($this->isViewHelperEscaper($env, $expression->getHelper())) {
-            return $node;
-        }
 
-        $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
-        $escaped = $this->getFilterNode($escaped, $this->getCastFilter($escaped->getLine()));
-        $escaped = $this->getFilterNode($escaped, $this->getEscaperFilter($type, $escaped->getLine()));
+        if ($this->isViewHelperEscaper($env, $expression->getHelper())) {
+            $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
+            $escaped = $this->getFilterNode($escaped, $this->getFilter('safe', $escaped->getLine()));
+        } else {
+            $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
+            $escaped = $this->getFilterNode($escaped, $this->getFilter('string', $escaped->getLine()));
+            $escaped = $this->getFilterNode($escaped, $this->getEscaperFilter($type, $escaped->getLine()));
+        }
 
         if ($node instanceof Twig_Node_Print) {
             return new Twig_Node_Print($escaped, $node->getLine());
@@ -109,8 +111,8 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
         return new Twig_Node_Expression_Filter($node, new Twig_Node($filter), $node->getLine());
     }
 
-    protected function getCastFilter($line) {
-        return array(new Twig_Node_Expression_Constant('string', $line), new Twig_Node(array()));
+    protected function getFilter($name, $line) {
+        return array(new Twig_Node_Expression_Constant($name, $line), new Twig_Node(array()));
     }
 
     protected function isViewHelperEscaper($env, $name) {
