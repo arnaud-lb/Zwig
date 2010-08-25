@@ -2,12 +2,10 @@
 
 class Zwig_Extension extends Twig_Extension
 {
-    protected $strictify;
     protected $overrideEscape;
 
-    public function __construct($strictify = false, $override_escape = true)
+    public function __construct($override_escape = true)
     {
-        $this->strictify = $strictify;
         $this->overrideEscape = $override_escape;
     }
 
@@ -32,9 +30,6 @@ class Zwig_Extension extends Twig_Extension
     public function getNodeVisitors()
     {
         $visitors = array(new Zwig_NodeVisitor_Escaper);
-        if ($this->strictify) {
-            $visitors[] = new Zwig_NodeVisitor_Strictify;
-        }
         return $visitors;
     }
 
@@ -50,6 +45,8 @@ class Zwig_Extension extends Twig_Extension
  */
 function zwig_escape_filter(Twig_Environment $env, $string, $type = 'html')
 {
+    $string = (string) $string;
+
     switch ($type) {
         case 'js':
             // a function the c-escapes a string, making it suitable to be placed in a JavaScript string

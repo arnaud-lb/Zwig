@@ -8,13 +8,8 @@ class Zwig_Environment extends Twig_Environment
 
         $parser = $parser !== null ? $parser : new Zwig_Parser;
 
-        $strictify = false;
         $override_escape = true;
 
-        if (isset($options['strictify'])) {
-            $strictify = $options['strictify'];
-            unset($options['strictify']);
-        }
         if (isset($options['override_escape'])) {
             $override_escape = $options['override_escape'];
             unset($options['override_escape']);
@@ -22,7 +17,7 @@ class Zwig_Environment extends Twig_Environment
 
         parent::__construct($loader, $options, $lexer, $parser, $compiler);
 
-        $this->addExtension(new Zwig_Extension($strictify, $override_escape));
+        $this->addExtension(new Zwig_Extension($override_escape));
         $this->view = $view;
     }
 
