@@ -8,16 +8,9 @@ class Zwig_Environment extends Twig_Environment
 
         $parser = $parser !== null ? $parser : new Zwig_Parser;
 
-        $override_escape = true;
-
-        if (isset($options['override_escape'])) {
-            $override_escape = $options['override_escape'];
-            unset($options['override_escape']);
-        }
-
         parent::__construct($loader, $options, $lexer, $parser, $compiler);
 
-        $this->addExtension(new Zwig_Extension($override_escape));
+        $this->addExtension(new Zwig_Extension);
         $this->view = $view;
     }
 
