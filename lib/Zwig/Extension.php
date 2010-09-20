@@ -4,7 +4,9 @@ class Zwig_Extension extends Twig_Extension
 {
     public function getTokenParsers()
     {
-        return array(new Zwig_TokenParser_ViewHelper());
+        $tokenParser = new Zwig_TokenParser_ViewHelper();
+        $broker = new Zwig_CatchAllTokenParserBroker($tokenParser);
+        return array($broker);
     }
 
     public function getFilters()
