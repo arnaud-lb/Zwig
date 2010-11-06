@@ -12,7 +12,7 @@ class Zwig_TokenParser_ViewHelper extends Twig_TokenParser
         $args = $this->parser->getExpressionParser()->parseArguments();
 
         $node = new Zwig_Node_Expression_ViewHelper($helper, $args, $token->getLine(), $this->getTag());
-        $node = $this->parser->getExpressionParser()->parseSubscriptExpression($node);
+        $node = $this->parser->getExpressionParser()->parsePostfixExpression($node);
 
         $this->parser->getStream()->expect(Twig_Token::BLOCK_END_TYPE);
 
