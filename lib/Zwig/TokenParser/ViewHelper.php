@@ -21,8 +21,7 @@ class Zwig_TokenParser_ViewHelper extends Twig_TokenParser
 
     public function getTag() 
     {
-        // The fallback tag
-        return '-';
+        return 'Zend_View_Helper';
     }
 }
 

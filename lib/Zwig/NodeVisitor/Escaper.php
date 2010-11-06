@@ -10,7 +10,7 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
      *
      * For your own helpers, implement 
      * Zwig_View_Helper_Interface instead
-     * or use the helper()|safe syntax.
+     * or use the helper()|raw syntax.
      */
     protected $_builtin_helpers = array(
         'Zend_View_Helper_Abstract' => false,
@@ -85,7 +85,7 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
             return $node;
         }
 
-        $expression = $node instanceof Twig_Node_Print ? $node->expr : $node;
+        $expression = $node instanceof Twig_Node_Print ? $node->getNode('expr') : $node;
 
         if (!$expression instanceof Zwig_Node_Expression_ViewHelper) {
             return $node;
@@ -93,7 +93,7 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
 
         if ($this->isViewHelperEscaper($env, $expression->getHelper())) {
             $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
-            $escaped = $this->getFilterNode($escaped, $this->getFilter('safe', $escaped->getLine()));
+            $escaped = $this->getFilterNode($escaped, $this->getFilter('raw', $escaped->getLine()));
         } else {
             $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
             $escaped = $this->getFilterNode($escaped, $this->getFilter('string', $escaped->getLine()));

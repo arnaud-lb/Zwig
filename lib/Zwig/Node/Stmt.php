@@ -12,7 +12,7 @@ class Zwig_Node_Stmt extends Twig_Node
         $compiler
             ->addDebugInfo($this)
             ->addIndentation()
-            ->subcompile($this->expr)
+            ->subcompile($this->getNode('expr'))
             ->raw(";\n")
         ;
     }
