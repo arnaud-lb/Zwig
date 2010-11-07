@@ -5,7 +5,7 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
     // {{{ 
     /**
      * This is a list of builtin ZF view helpers.
-     * True means that the helper normaly outputs
+     * 'html' means that the helper normaly outputs
      * HTML code and should not be escaped.
      *
      * For your own helpers, implement 
@@ -13,69 +13,69 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
      * or use the helper()|raw syntax.
      */
     protected $_builtin_helpers = array(
-        'Zend_View_Helper_Abstract' => false,
-        'Zend_View_Helper_Action' => false,
-        'Zend_View_Helper_BaseUrl' => false,
-        'Zend_View_Helper_Currency' => false,
-        'Zend_View_Helper_Cycle' => false,
-        'Zend_View_Helper_DeclareVars' => false,
-        'Zend_View_Helper_Doctype' => true,
-        'Zend_View_Helper_Fieldset' => true,
-        'Zend_View_Helper_FormButton' => true,
-        'Zend_View_Helper_FormCheckbox' => true,
-        'Zend_View_Helper_FormElement' => true,
-        'Zend_View_Helper_FormErrors' => true,
-        'Zend_View_Helper_FormFile' => true,
-        'Zend_View_Helper_FormHidden' => true,
-        'Zend_View_Helper_FormImage' => true,
-        'Zend_View_Helper_FormLabel' => true,
-        'Zend_View_Helper_FormMultiCheckbox' => true,
-        'Zend_View_Helper_FormNote' => true,
-        'Zend_View_Helper_FormPassword' => true,
-        'Zend_View_Helper_FormRadio' => true,
-        'Zend_View_Helper_FormReset' => true,
-        'Zend_View_Helper_FormSelect' => true,
-        'Zend_View_Helper_FormSubmit' => true,
-        'Zend_View_Helper_FormTextarea' => true,
-        'Zend_View_Helper_FormText' => true,
-        'Zend_View_Helper_Form' => true,
-        'Zend_View_Helper_HeadLink' => true,
-        'Zend_View_Helper_HeadMeta' => true,
-        'Zend_View_Helper_HeadScript' => true,
-        'Zend_View_Helper_HeadStyle' => true,
-        'Zend_View_Helper_HeadTitle' => true,
-        'Zend_View_Helper_HtmlElement' => true,
-        'Zend_View_Helper_HtmlFlash' => true,
-        'Zend_View_Helper_HtmlList' => true,
-        'Zend_View_Helper_HtmlObject' => true,
-        'Zend_View_Helper_HtmlPage' => true,
-        'Zend_View_Helper_HtmlQuicktime' => true,
-        'Zend_View_Helper_InlineScript' => true,
-        'Zend_View_Helper_Interface' => false,
-        'Zend_View_Helper_Json' => false,
-        'Zend_View_Helper_Layout' => true,
-        'Zend_View_Helper_Navigation_Breadcrumbs' => true,
-        'Zend_View_Helper_Navigation_HelperAbstract' => true,
-        'Zend_View_Helper_Navigation_Helper' => true,
-        'Zend_View_Helper_Navigation_Links' => true,
-        'Zend_View_Helper_Navigation_Menu' => true,
-        'Zend_View_Helper_Navigation_Sitemap' => true,
-        'Zend_View_Helper_Navigation' => true,
-        'Zend_View_Helper_PaginationControl' => true,
-        'Zend_View_Helper_Partial_Exception' => false,
-        'Zend_View_Helper_PartialLoop' => true,
-        'Zend_View_Helper_Partial' => true,
-        'Zend_View_Helper_Placeholder_Container_Abstract' => true,
-        'Zend_View_Helper_Placeholder_Container_Exception' => true,
-        'Zend_View_Helper_Placeholder_Container_Standalone' => true,
-        'Zend_View_Helper_Placeholder_Container' => true,
-        'Zend_View_Helper_Placeholder_Registry_Exception' => true,
-        'Zend_View_Helper_Placeholder_Registry' => true,
-        'Zend_View_Helper_Placeholder' => true,
-        'Zend_View_Helper_RenderToPlaceholder' => true,
-        'Zend_View_Helper_ServerUrl' => false,
-        'Zend_View_Helper_Translate' => false,
-        'Zend_View_Helper_Url' => false,
+        'Zend_View_Helper_Abstract' => null,
+        'Zend_View_Helper_Action' => null,
+        'Zend_View_Helper_BaseUrl' => null,
+        'Zend_View_Helper_Currency' => null,
+        'Zend_View_Helper_Cycle' => null,
+        'Zend_View_Helper_DeclareVars' => null,
+        'Zend_View_Helper_Doctype' => 'html',
+        'Zend_View_Helper_Fieldset' => 'html',
+        'Zend_View_Helper_FormButton' => 'html',
+        'Zend_View_Helper_FormCheckbox' => 'html',
+        'Zend_View_Helper_FormElement' => 'html',
+        'Zend_View_Helper_FormErrors' => 'html',
+        'Zend_View_Helper_FormFile' => 'html',
+        'Zend_View_Helper_FormHidden' => 'html',
+        'Zend_View_Helper_FormImage' => 'html',
+        'Zend_View_Helper_FormLabel' => 'html',
+        'Zend_View_Helper_FormMultiCheckbox' => 'html',
+        'Zend_View_Helper_FormNote' => 'html',
+        'Zend_View_Helper_FormPassword' => 'html',
+        'Zend_View_Helper_FormRadio' => 'html',
+        'Zend_View_Helper_FormReset' => 'html',
+        'Zend_View_Helper_FormSelect' => 'html',
+        'Zend_View_Helper_FormSubmit' => 'html',
+        'Zend_View_Helper_FormTextarea' => 'html',
+        'Zend_View_Helper_FormText' => 'html',
+        'Zend_View_Helper_Form' => 'html',
+        'Zend_View_Helper_HeadLink' => 'html',
+        'Zend_View_Helper_HeadMeta' => 'html',
+        'Zend_View_Helper_HeadScript' => 'html',
+        'Zend_View_Helper_HeadStyle' => 'html',
+        'Zend_View_Helper_HeadTitle' => 'html',
+        'Zend_View_Helper_HtmlElement' => 'html',
+        'Zend_View_Helper_HtmlFlash' => 'html',
+        'Zend_View_Helper_HtmlList' => 'html',
+        'Zend_View_Helper_HtmlObject' => 'html',
+        'Zend_View_Helper_HtmlPage' => 'html',
+        'Zend_View_Helper_HtmlQuicktime' => 'html',
+        'Zend_View_Helper_InlineScript' => 'html',
+        'Zend_View_Helper_Interface' => null,
+        'Zend_View_Helper_Json' => null,
+        'Zend_View_Helper_Layout' => 'html',
+        'Zend_View_Helper_Navigation_Breadcrumbs' => 'html',
+        'Zend_View_Helper_Navigation_HelperAbstract' => 'html',
+        'Zend_View_Helper_Navigation_Helper' => 'html',
+        'Zend_View_Helper_Navigation_Links' => 'html',
+        'Zend_View_Helper_Navigation_Menu' => 'html',
+        'Zend_View_Helper_Navigation_Sitemap' => 'html',
+        'Zend_View_Helper_Navigation' => 'html',
+        'Zend_View_Helper_PaginationControl' => 'html',
+        'Zend_View_Helper_Partial_Exception' => null,
+        'Zend_View_Helper_PartialLoop' => 'html',
+        'Zend_View_Helper_Partial' => 'html',
+        'Zend_View_Helper_Placeholder_Container_Abstract' => 'html',
+        'Zend_View_Helper_Placeholder_Container_Exception' => 'html',
+        'Zend_View_Helper_Placeholder_Container_Standalone' => 'html',
+        'Zend_View_Helper_Placeholder_Container' => 'html',
+        'Zend_View_Helper_Placeholder_Registry_Exception' => 'html',
+        'Zend_View_Helper_Placeholder_Registry' => 'html',
+        'Zend_View_Helper_Placeholder' => 'html',
+        'Zend_View_Helper_RenderToPlaceholder' => 'html',
+        'Zend_View_Helper_ServerUrl' => null,
+        'Zend_View_Helper_Translate' => null,
+        'Zend_View_Helper_Url' => null,
     );
     // }}}
 
@@ -91,7 +91,7 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
             return $node;
         }
 
-        if ($this->isViewHelperEscaper($env, $expression->getHelper())) {
+        if ($this->isViewHelperEscaperFor($env, $expression->getHelper(), $type)) {
             $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
             $escaped = $this->getFilterNode($escaped, $this->getFilter('raw', $escaped->getLine()));
         } else {
@@ -115,7 +115,7 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
         return array(new Twig_Node_Expression_Constant($name, $line), new Twig_Node(array()));
     }
 
-    protected function isViewHelperEscaper($env, $name) {
+    protected function isViewHelperEscaperFor($env, $name, $type) {
 
         $helper = $env->view->getHelper($name);
 
@@ -123,17 +123,30 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
             return false;
         }
 
-        if ($helper instanceof Zwig_View_Helper_Interface) {
-            return $helper->isEscaper();
-        }
-
-        $class = get_class($helper);
+        $safeness = null;
 
         do {
-            if (isset($this->_builtin_helpers[$class])) {
-                return $this->_builtin_helpers[$class];
+            if ($helper instanceof Zwig_View_Helper_Interface) {
+                $safeness = $helper->getSafe();
+                break;
             }
-        } while (($class = get_parent_class($class)) !== false);
+
+            $class = get_class($helper);
+
+            do {
+                if (isset($this->_builtin_helpers[$class])) {
+                    $safeness = $this->_builtin_helpers[$class];
+                    break 2;
+                }
+            } while (($class = get_parent_class($class)) !== false);
+
+        } while (false);
+
+        if (is_array($safeness)) {
+            return in_array($type, $safeness) || in_array('all', $safeness);
+        } else if (is_string($safeness)) {
+            return $safeness == $type;
+        }
 
         return false;
     }
