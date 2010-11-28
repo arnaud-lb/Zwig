@@ -2,11 +2,12 @@
 
 class Zwig_Parser extends Twig_Parser
 {
-    protected $expressionParser;
-
-    public function __construct(Zwig_Environment $env = null)
+    public function parse(Twig_TokenStream $stream)
     {
-        parent::__construct($env);
-        $this->expressionParser = new Zwig_ExpressionParser($this);
+        if (null === $this->expressionParser) {
+            $this->expressionParser = new Zwig_ExpressionParser($this, $this->env->getUnaryOperators(), $this->env->getBinaryOperators());
+        }
+
+        return parent::parse($stream);
     }
 }

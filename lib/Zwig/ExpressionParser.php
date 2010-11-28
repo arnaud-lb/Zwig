@@ -12,7 +12,7 @@ class Zwig_ExpressionParser extends Twig_ExpressionParser
                 && $value !== 'true' && $value !== 'false' && $value !== 'none') {
 
             $this->parser->getStream()->rewind();
-            if ($this->parser->getStream()->look()->test(Twig_Token::OPERATOR_TYPE, '(')) {
+            if ($this->parser->getStream()->look()->test(Twig_Token::PUNCTUATION_TYPE, '(')) {
                 $this->parser->getStream()->next();
                 $args = $this->parseArguments();
                 $node = new Zwig_Node_Expression_ViewHelper($token->getValue(), $args, $token->getLine());

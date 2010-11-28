@@ -79,40 +79,32 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
     );
     // }}}
 
-    protected function escapeNode(Twig_NodeInterface $node, Twig_Environment $env, $type)
+    protected function escapePrintNode(Twig_Node_Print $node, Twig_Environment $env, $type)
     {
         if (false === $type) {
             return $node;
         }
 
-        $expression = $node instanceof Twig_Node_Print ? $node->getNode('expr') : $node;
+        $expression = $node->getNode('expr');
 
         if (!$expression instanceof Zwig_Node_Expression_ViewHelper) {
             return $node;
         }
 
         if ($this->isViewHelperEscaperFor($env, $expression->getHelper(), $type)) {
-            $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
-            $escaped = $this->getFilterNode($escaped, $this->getFilter('raw', $escaped->getLine()));
+            $escaped = $this->getFilter('raw', $expression);
         } else {
-            $escaped = $node instanceof Twig_Node_Print ? $expression : $node;
-            $escaped = $this->getFilterNode($escaped, $this->getFilter('string', $escaped->getLine()));
-            $escaped = $this->getFilterNode($escaped, $this->getEscaperFilter($type, $escaped->getLine()));
+            $escaped = $this->getEscaperFilter($type, $this->getFilter('string', $expression));
         }
 
-        if ($node instanceof Twig_Node_Print) {
-            return new Twig_Node_Print($escaped, $node->getLine());
-        } else {
-            return $escaped;
-        }
+        return new Twig_Node_Print($escaped, $node->getLine());
     }
 
-    protected function getFilterNode($node, $filter) {
-        return new Twig_Node_Expression_Filter($node, new Twig_Node($filter), $node->getLine());
-    }
-
-    protected function getFilter($name, $line) {
-        return array(new Twig_Node_Expression_Constant($name, $line), new Twig_Node(array()));
+    protected function getFilter($filter, Twig_NodeInterface $node, array $args = array()) {
+        $line = $node->getLine();
+        $name = new Twig_Node_Expression_Constant($filter, $line);
+        $args = new Twig_Node($args);
+        return new Twig_Node_Expression_Filter($node, $name, $args, $line);
     }
 
     protected function isViewHelperEscaperFor($env, $name, $type) {
