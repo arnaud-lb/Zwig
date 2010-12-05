@@ -14,7 +14,9 @@ class Zwig_Node_Expression_ViewHelper extends Twig_Node_Expression
 
     public function compile($compiler)
     {
-        $compiler->raw('$this->env->view->' . $this->getAttribute('helper') . '(');
+        $compiler->raw('$this->env->view->getHelper(');
+        $compiler->repr($this->getAttribute('helper'));
+        $compiler->raw(')->' . $this->getAttribute('helper') . '(');
 
         $first = true;
         foreach($this->getNode('args') as $arg) {
