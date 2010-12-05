@@ -142,5 +142,10 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
 
         return false;
     }
+
+    public function getPriority()
+    {
+        return -50;
+    }
 }
 
