@@ -19,12 +19,4 @@ class Zwig_Environment extends Twig_Environment
         }
         return $this->parser;
     }
-
-    public function loadTemplate($template)
-    {
-        if ($template[0] !== '/') {
-            $template = $this->view->script($template);
-        }
-        return parent::loadTemplate($template);
-    }
 }

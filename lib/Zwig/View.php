@@ -2,6 +2,8 @@
 
 class Zwig_View extends Zend_View_Abstract
 {
+    protected $_pathSet = false;
+
     protected $_zwig;
 
     public function setEngine(Zwig_Environment $engine) {
@@ -12,15 +14,28 @@ class Zwig_View extends Zend_View_Abstract
         return $this->_zwig;
     }
 
-    public function _run() {
-
-        $script = func_get_arg(0);
-        $template = $this->_zwig->loadTemplate($script);
-        $template->display(get_object_vars($this));
+    public function addScriptPath($path) {
+        $this->_pathSet = false;
+        return parent::addScriptPath($path);
     }
 
-    public function script($script) {
-        return $this->_script($script);
+    public function setScriptPath($path) {
+        $this->_pathSet = false;
+        return parent::setScriptPath($path);
+    }
+
+    protected function _script($name) {
+        return $name;
+    }
+
+    public function _run() {
+        $script = func_get_arg(0);
+        if (!$this->_pathSet && method_exists($this->_zwig->getLoader(), 'setPaths')) {
+            $this->_zwig->getLoader()->setPaths($this->getScriptPaths());
+            $this->_pathSet = true;
+        }
+        $template = $this->_zwig->loadTemplate($script);
+        $template->display(get_object_vars($this));
     }
 }
 
