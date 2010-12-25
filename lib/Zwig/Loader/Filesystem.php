@@ -2,11 +2,11 @@
 
 class Zwig_Loader_Filesystem extends Twig_Loader_Filesystem
 {
-    protected $alwaysResload;
+    protected $alwaysReload;
 
-    function __construct($paths, $always_reload = false)
+    function __construct($paths, $alwaysReload = false)
     {
-        $this->alwaysReload = $always_reload;
+        $this->alwaysReload = $alwaysReload;
         parent::__construct($paths);
     }
 
