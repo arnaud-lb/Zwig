@@ -18,12 +18,6 @@ class Zwig_Extension extends Twig_Extension
         return $filters;
     }
 
-    public function getNodeVisitors()
-    {
-        $visitors = array(new Zwig_NodeVisitor_Escaper);
-        return $visitors;
-    }
-
     public function getName()
     {
         return 'Zwig';

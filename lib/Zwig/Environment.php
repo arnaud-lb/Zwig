@@ -12,11 +12,23 @@ class Zwig_Environment extends Twig_Environment
         $this->view = $view;
     }
 
-    public function getParser()
+    public function getFunction($name)
     {
-        if (null === $this->parser) {
-            $this->parser = new Zwig_Parser($this);
+        if (null !== $function = parent::getFunction($name))
+        {
+            return $function;
         }
-        return $this->parser;
+
+        $helper = $this->view->getHelper($name);
+
+        if (null === $helper)
+        {
+            return null;
+        }
+
+        $function = new Zwig_Function_ViewHelper($name, $helper);
+        $this->addFunction($name, $function);
+
+        return $function;
     }
 }

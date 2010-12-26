@@ -1,7 +1,65 @@
 <?php
 
-class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
+/*
+ * This file is part of Zwig.
+ *
+ * (c) 2010 Arnaud Le Blanc
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Represents a View Helper template function.
+ *
+ * @package    zwig
+ * @author     Arnaud Le Blanc <arnaud.lb@gmail.com>
+ */
+class Zwig_Function_ViewHelper extends Twig_Function
 {
+    protected $name;
+    protected $helper;
+
+    public function __construct($name, /*Zend_View_Helper_Interface */$helper)
+    {
+        $this->name = $name;
+        $this->helper = $helper;
+    }
+
+    public function getSafe(Twig_Node $functionArgs)
+    {
+        $safeness = array();
+        $helper = $this->helper;
+
+        do {
+            if ($helper instanceof Zwig_View_Helper_Interface) {
+                $safeness = $helper->getSafe();
+                break;
+            }
+
+            $class = get_class($helper);
+
+            do {
+                if (isset($this->builtin_helpers[$class])) {
+                    $safeness = $this->builtin_helpers[$class];
+                    break 2;
+                }
+            } while (($class = get_parent_class($class)) !== false);
+
+        } while (false);
+
+        if (is_string($safeness)) {
+            return array($safeness);
+        }
+        return $safeness;
+    }
+
+    public function compile()
+    {
+        $name = preg_replace('#[^a-z0-9]+#i', '', $this->name);
+        return '$this->env->view->getHelper("' . $name . '")->' . $name;
+    }
+
     // {{{ 
     /**
      * This is a list of builtin ZF view helpers.
@@ -12,7 +70,7 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
      * Zwig_View_Helper_Interface instead
      * or use the helper()|raw syntax.
      */
-    protected $_builtin_helpers = array(
+    protected $builtin_helpers = array(
         'Zend_View_Helper_Abstract' => null,
         'Zend_View_Helper_Action' => null,
         'Zend_View_Helper_BaseUrl' => null,
@@ -78,74 +136,4 @@ class Zwig_NodeVisitor_Escaper extends Twig_NodeVisitor_Escaper
         'Zend_View_Helper_Url' => null,
     );
     // }}}
-
-    protected function escapePrintNode(Twig_Node_Print $node, Twig_Environment $env, $type)
-    {
-        if (false === $type) {
-            return $node;
-        }
-
-        $expression = $node->getNode('expr');
-
-        if (!$expression instanceof Zwig_Node_Expression_ViewHelper) {
-            return $node;
-        }
-
-        if ($this->isViewHelperEscaperFor($env, $expression->getHelper(), $type)) {
-            $escaped = $this->getFilter('raw', $expression);
-        } else {
-            $escaped = $this->getEscaperFilter($type, $this->getFilter('string', $expression));
-        }
-
-        return new Twig_Node_Print($escaped, $node->getLine());
-    }
-
-    protected function getFilter($filter, Twig_NodeInterface $node, array $args = array()) {
-        $line = $node->getLine();
-        $name = new Twig_Node_Expression_Constant($filter, $line);
-        $args = new Twig_Node($args);
-        return new Twig_Node_Expression_Filter($node, $name, $args, $line);
-    }
-
-    protected function isViewHelperEscaperFor($env, $name, $type) {
-
-        $helper = $env->view->getHelper($name);
-
-        if (!$helper) {
-            return false;
-        }
-
-        $safeness = null;
-
-        do {
-            if ($helper instanceof Zwig_View_Helper_Interface) {
-                $safeness = $helper->getSafe();
-                break;
-            }
-
-            $class = get_class($helper);
-
-            do {
-                if (isset($this->_builtin_helpers[$class])) {
-                    $safeness = $this->_builtin_helpers[$class];
-                    break 2;
-                }
-            } while (($class = get_parent_class($class)) !== false);
-
-        } while (false);
-
-        if (is_array($safeness)) {
-            return in_array($type, $safeness) || in_array('all', $safeness);
-        } else if (is_string($safeness)) {
-            return $safeness == $type;
-        }
-
-        return false;
-    }
-
-    public function getPriority()
-    {
-        return -50;
-    }
 }
-
