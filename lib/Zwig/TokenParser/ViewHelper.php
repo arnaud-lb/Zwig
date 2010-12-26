@@ -1,5 +1,20 @@
 <?php
 
+/*
+ * This file is part of Zwig.
+ *
+ * (c) 2010 Arnaud Le Blanc
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * ViewHelper TokenParser
+ *
+ * @package    zwig
+ * @author     Arnaud Le Blanc <arnaud.lb@gmail.com>
+ */
 class Zwig_TokenParser_ViewHelper extends Twig_TokenParser
 {
     /*
