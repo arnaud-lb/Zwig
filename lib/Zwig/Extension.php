@@ -24,15 +24,6 @@ class Zwig_Extension extends Twig_Extension
         return array($broker);
     }
 
-    public function getFilters()
-    {
-        $filters = array(
-            'js' => new Twig_Filter_Function('json_encode', array('is_safe' => array('js'))),
-            'string' => new Zwig_Filter_Cast('string'),
-        );
-        return $filters;
-    }
-
     public function getName()
     {
         return 'Zwig';
