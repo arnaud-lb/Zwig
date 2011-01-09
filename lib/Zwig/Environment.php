@@ -29,7 +29,7 @@ class Zwig_Environment extends Twig_Environment
 
     public function getFunction($name)
     {
-        if (null !== $function = parent::getFunction($name))
+        if (false !== $function = parent::getFunction($name))
         {
             return $function;
         }

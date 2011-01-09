@@ -22,7 +22,7 @@ class Zwig_Node_Stmt extends Twig_Node
         parent::__construct(array('expr' => $expr), $attrs, $lineno, $tag);
     }
 
-    public function compile($compiler)
+    public function compile(Twig_Compiler $compiler)
     {
         $compiler
             ->addDebugInfo($this)
