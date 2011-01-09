@@ -38,7 +38,7 @@ class Zwig_Environment extends Twig_Environment
 
         if (null === $helper)
         {
-            return null;
+            return false;
         }
 
         $function = new Zwig_Function_ViewHelper($name, $helper);
