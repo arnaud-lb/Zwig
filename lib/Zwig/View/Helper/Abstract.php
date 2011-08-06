@@ -16,7 +16,7 @@
  * @package    zwig
  * @author     Arnaud Le Blanc <arnaud.lb@gmail.com>
  */
-abstract class Zwig_View_helper_Abstract extends Zend_View_Helper_Abstract implements Zwig_View_Helper_Interface
+abstract class Zwig_View_Helper_Abstract extends Zend_View_Helper_Abstract implements Zwig_View_Helper_Interface
 {
 }
 
