@@ -6,5 +6,5 @@ Zwig is a Twig / Zend Framework adapter compatible with `Zend_View` and the `Vie
 Documentation
 -------------
 
-Installation instructions are currently hosted at <a href="http://code.google.com/p/zwig/">http://code.google.com/p/zwig/</a>.
+Installation instructions are currently hosted at http://code.google.com/p/zwig/ .
 
