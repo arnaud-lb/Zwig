@@ -23,7 +23,7 @@ class Zwig_Environment extends Twig_Environment
 
         parent::__construct($loader, $options);
 
-        $this->addExtension(new Zwig_Extension);
+        $this->addExtension(new Zwig_Extension($this));
         $this->view = $view;
     }
 

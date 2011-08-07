@@ -17,10 +17,17 @@
  */
 class Zwig_Extension extends Twig_Extension
 {
+    protected $env;
+
+    public function __construct(Zwig_Environment $env)
+    {
+        $this->env = $env;
+    }
+
     public function getTokenParsers()
     {
         $tokenParser = new Zwig_TokenParser_ViewHelper();
-        $broker = new Zwig_CatchAllTokenParserBroker($tokenParser);
+        $broker = new Zwig_TokenParserBroker($tokenParser, $this->env);
         return array($broker);
     }
 

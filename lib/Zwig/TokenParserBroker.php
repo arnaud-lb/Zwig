@@ -10,22 +10,27 @@
  */
 
 /**
- * A token parser broker always returning the parser passed in constructor.
- *
  * @package    zwig
  * @author     Arnaud Le Blanc <arnaud.lb@gmail.com>
  */
-class Zwig_CatchAllTokenParserBroker extends Twig_TokenParserBroker
+class Zwig_TokenParserBroker extends Twig_TokenParserBroker
 {
     protected $tokenParser;
+    protected $env;
 
-    public function __construct(Twig_TokenParserInterface $tokenParser) {
+    public function __construct(Twig_TokenParserInterface $tokenParser, Zwig_Environment $env) {
         $this->tokenParser = $tokenParser;
+        $this->env = $env;
     }
 
+    /**
+     * Returns $tokenParser if a Zend View Helper named $tag exists
+     */
     public function getTokenParser($tag)
     {
-        return $this->tokenParser;
+        if ($this->env->getFunction($tag)) {
+            return $this->tokenParser;
+        }
     }
 
     public function setParser(Twig_ParserInterface $parser)
