@@ -34,7 +34,11 @@ class Zwig_Environment extends Twig_Environment
             return $function;
         }
 
-        $helper = $this->view->getHelper($name);
+        try {
+            $helper = $this->view->getHelper($name);
+        } catch(Zend_Loader_PluginLoader_Exception $e) {
+            return false;
+        }
 
         if (null === $helper)
         {
