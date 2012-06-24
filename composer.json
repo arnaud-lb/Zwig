@@ -1,6 +1,6 @@
 {
     "name": "alb/zwig",
-    "description": "Zend / Twig Framework 1 adapter",
+    "description": "Twig / Zend Framework 1 adapter",
     "authors": [
         {
             "name": "Arnaud Le Blanc",
