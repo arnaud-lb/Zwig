@@ -1,0 +1,15 @@
+{
+    "name": "alb/zwig",
+    "description": "Zend / Twig Framework 1 adapter",
+    "authors": [
+        {
+            "name": "Arnaud Le Blanc",
+            "email": "arnaud.lb@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Zwig_": "lib/"
+        }
+    }
+}
