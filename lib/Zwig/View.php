@@ -21,7 +21,7 @@ class Zwig_View extends Zend_View_Abstract
 
     protected $_zwig;
 
-    public function setEngine(Zwig_Environment $engine) {
+    public function setEngine(Twig_Environment $engine) {
         $this->_zwig = $engine;
     }
 
