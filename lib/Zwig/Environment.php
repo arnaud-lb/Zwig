@@ -44,9 +44,16 @@ class Zwig_Environment extends Twig_Environment
         {
             return false;
         }
-
+        
+        # Registering functions at runtime is no longer possible due to this patch:
+        # https://github.com/fabpot/Twig/commit/44873875ff6ca50c654e3bd28fe19b7ce5108f42
+        # To remedy we toggle $this->extensionInitialized off and back on again
+        $this->extensionInitialized = false;
+        
         $function = new Zwig_Function_ViewHelper($name, $helper);
         $this->addFunction($name, $function);
+        
+        $this->extensionInitialized = true;
 
         return $function;
     }
